@@ -59,4 +59,4 @@ class Generator(object):
 				self.output = conv5_3;
 
 			self.vectors = vectors;	
-			return self.output;
+			return nonlinear(self.output,'tanh');

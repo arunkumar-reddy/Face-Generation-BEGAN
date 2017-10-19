@@ -40,7 +40,7 @@ def main(argv):
 			data = train_data(args);
 			model = Model(args,'train');
 			sess.run(tf.global_variables_initializer());
-			model.Train(sess,data);
+			#model.Train(sess,data);
 		elif(args.phase=='test'):
 			model = Model(args,'test');
 			sess.run(tf.global_variables_initializer());

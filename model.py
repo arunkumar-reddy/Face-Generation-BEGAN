@@ -34,11 +34,12 @@ class Model(object):
 		images = tf.placeholder(tf.float32,[self.batch_size]+image_shape);
 		vectors = tf.placeholder(tf.float32,[self.batch_size,self.vector_size]);
 		train = tf.placeholder(tf.bool);
+		reuse = False if self.phase =='train' else True;
 		k = tf.Variable(0.,name='k_t',trainable=False);
 		generator = Generator(self.params,self.phase);
 		autoencoder = Autoencoder(self.params,self.phase);
-		output = generator.run(vectors,train,reuse=False);
-		real = autoencoder.run(images,train,reuse=False);
+		output = generator.run(vectors,train,reuse);
+		real = autoencoder.run(images,train,reuse);
 		fake = autoencoder.run(output,train,reuse=True);
 		real_loss = tf.reduce_mean(tf.abs(real-images));
 		fake_loss = tf.reduce_mean(tf.abs(fake-output));
@@ -122,7 +123,6 @@ class Model(object):
 
 	def Test(self,sess):
 		print('Testing the Model......');
-		result_dir = self.params.test_result;
 		for i in tqdm(list(range(self.params.test_samples)),desc='Batch'):
 			vector = np.random.uniform(-1,1,size=(self.vector_size));
 			output = sess.run(self.output,feed_dict={self.vectors:vector, self.train:False});
@@ -186,13 +186,13 @@ class Model(object):
 		for image_file in files:
 			image = imread(image_file);
 			image = resize(image,(image_shape[0],image_shape[1]));
-			image = image/127.5-1;
+			image = (image-127.5)/127.5;
 			images.append(image);
 		images = np.array(images,np.float32);
 		return images;
 
 	def save_image(self,output,name):
-		output = (output+1)*127.5;
+		output = (output*127.5)+127.5;
 		if(self.phase=='train'):
 			file_name = self.params.train_dir+name+'.png';
 		elif(self.phase=='test'):

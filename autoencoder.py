@@ -114,4 +114,4 @@ class Autoencoder(object):
 				conv5_3 = convolution(conv5_2,3,3,3,1,1,'d_conv5_3');
 				self.output = conv5_3;
 
-			return self.output;
+			return nonlinear(self.output,'tanh');
