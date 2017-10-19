@@ -17,7 +17,7 @@ def main(argv):
 	parser.add_argument('--interpolation_module',default='gen',choices=['gen','disc'], help='Module used for interpolation');
 	parser.add_argument('--train_dataset', default='/home/arun/Datasets/CelebA/', help='Directory containing the training images');
 	parser.add_argument('--train_dir', default='./train/', help='Directory to store training results');
-	parser.add_argument('--test_samples', default=3, help='Number of test samples');
+	parser.add_argument('--test_samples', default=30, help='Number of test samples');
 	parser.add_argument('--test_dir', default='./test/', help='Directory to store testing images');
 	parser.add_argument('--interpolation_dir', default='./interpolate/', help='Directory to store interpolated images');
 	parser.add_argument('--save_dir', default='./models/', help='Directory to contain the trained model');
